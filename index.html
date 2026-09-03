@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Shy Webcam 😳</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <!-- MediaPipe -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="topbar">
+
+        <div class="brand">
+            <div class="brand-icon">📷</div>
+
+            <div>
+                <h1>Shy Webcam</h1>
+                <p>please don't look at me</p>
+            </div>
+        </div>
+
+        <div class="status">
+            <span class="status-dot"></span>
+            <span id="statusText">Camera sleeping</span>
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <section class="hero">
+
+            <div class="hero-text">
+
+                <span class="badge">
+                    ⚠️ INTENTIONALLY USELESS
+                </span>
+
+                <h2>
+                    Please don't<br>
+                    <span>look at me.</span>
+                </h2>
+
+                <p>
+                    This webcam has severe social anxiety.
+                    The moment you make eye contact, it panics.
+                </p>
+
+                <button id="startButton" class="start-btn">
+                    <span>📷</span>
+                    Wake up the webcam
+                </button>
+
+            </div>
+
+
+            <!-- ================= CAMERA ================= -->
+
+            <div class="camera-wrapper">
+
+                <div class="camera-frame" id="cameraFrame">
+
+                    <video
+                        id="video"
+                        class="input-video"
+                        autoplay
+                        playsinline>
+                    </video>
+
+                    <canvas
+                        id="outputCanvas">
+                    </canvas>
+
+
+                    <!-- Webcam shutter -->
+
+                    <div id="shutter" class="shutter">
+
+                        <div class="shutter-line"></div>
+                        <div class="shutter-line"></div>
+                        <div class="shutter-line"></div>
+
+                        <div class="shutter-message">
+
+                            <div class="shy-face">
+                                🫣
+                            </div>
+
+                            <h3>
+                                DON'T LOOK AT ME
+                            </h3>
+
+                            <p id="panicMessage">
+                                You looked directly at me.
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Camera LED -->
+
+                    <div class="camera-led"></div>
+
+
+                    <!-- Camera label -->
+
+                    <div class="camera-label">
+                        SHY-CAM 3000
+                    </div>
+
+
+                    <!-- Eye contact indicator -->
+
+                    <div id="eyeIndicator"
+                         class="eye-indicator">
+
+                        <span></span>
+                        <b>WATCHING</b>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Camera stand -->
+
+                <div class="camera-stand"></div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= STATS ================= -->
+
+        <section class="stats">
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    😱
+                </div>
+
+                <div>
+                    <span>Times frightened</span>
+                    <strong id="scareCount">0</strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🧠
+                </div>
+
+                <div>
+                    <span>Anxiety level</span>
+                    <strong>
+                        <span id="anxietyValue">0</span>%
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    👀
+                </div>
+
+                <div>
+                    <span>Eye contact</span>
+                    <strong id="eyeStatus">
+                        None
+                    </strong>
+                </div>
+
+            </div>
+
+
+            <div class="stat-card">
+
+                <div class="stat-icon">
+                    🏆
+                </div>
+
+                <div>
+                    <span>Session record</span>
+                    <strong id="record">
+                        0
+                    </strong>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= PANIC METER ================= -->
+
+        <section class="anxiety-section">
+
+            <div class="section-heading">
+
+                <div>
+                    <h3>Webcam anxiety</h3>
+                    <p>
+                        Its emotional stability is deteriorating.
+                    </p>
+                </div>
+
+                <span id="anxietyText">
+                    CALM
+                </span>
+
+            </div>
+
+
+            <div class="meter">
+
+                <div
+                    id="meterFill"
+                    class="meter-fill">
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= INSTRUCTIONS ================= -->
+
+        <section class="instructions">
+
+            <div class="instruction-card">
+
+                <div class="instruction-number">
+                    01
+                </div>
+
+                <div>
+                    <h3>Look away</h3>
+
+                    <p>
+                        The webcam is perfectly comfortable
+                        when you're not looking directly at it.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="instruction-card">
+
+                <div class="instruction-number">
+                    02
+                </div>
+
+                <div>
+                    <h3>Make eye contact</h3>
+
+                    <p>
+                        Look directly at your camera and
+                        watch the poor thing panic.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="instruction-card">
+
+                <div class="instruction-number">
+                    03
+                </div>
+
+                <div>
+                    <h3>Look away again</h3>
+
+                    <p>
+                        Eventually it will gather enough
+                        courage to peek back.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= FOOTER ================= -->
+
+        <footer>
+
+            <div>
+                Made with absolutely no practical purpose.
+            </div>
+
+            <div>
+                © 2026 Shy Webcam
+            </div>
+
+        </footer>
+
+    </main>
+
+</div>
+
+
+<!-- Panic overlay -->
+
+<div id="panicOverlay" class="panic-overlay">
+
+    <div class="panic-content">
+
+        <div class="panic-emoji">
+            😭
+        </div>
+
+        <h1>
+            STOP STARING AT ME
+        </h1>
+
+        <p id="overlayMessage">
+            WHY ARE YOU LOOKING AT ME?!
+        </p>
+
+        <div class="panic-count">
+            Scared <span id="overlayCount">0</span> times
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="script.js"></script>
+
+</body>
+</html>
