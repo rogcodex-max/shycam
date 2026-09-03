@@ -109,15 +109,11 @@ recordElement.textContent = record;
 
 const panicMessages = [
 
-    "WHY ARE YOU LOOKING AT ME?!",
-
     "എന്നെ നോക്കല്ലേ ചേട്ടാ 😭",
 
     "അയ്യോ വീണ്ടും വന്നോ ഇവൻ!",
 
-    "STOP STARING AT ME",
-
-    "Can you please look somewhere else?",
+   "Can you please look somewhere else?",
 
     "Bro... personal space 😭",
 
